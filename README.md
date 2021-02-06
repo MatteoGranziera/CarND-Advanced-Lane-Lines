@@ -84,14 +84,14 @@ On the L channel I apply a  the following steps:
 * Apply sobel filter x and y directions 
 * Calculate the magnitude of each pixel using the pythagorean theorem with the absolute gradients value from Sobels filters outputs (X and Y): 
  
- $\sqrt{(|sobel_x|)^2 + (|sobel_y|)^2}$
+![equation](https://latex.codecogs.com/gif.latex?%5Csqrt%7B%28%7Csobel_x%7C%29%5E2%20&plus;%20%28%7Csobel_y%7C%29%5E2%7D)
 
  
 * Filter the image and convert it to a binary image by apply a threshold
 
 * Calculate the direction of each pixel using the arctangent function with the absolute gradients value from Sobels filters outputs (X and Y):
 
- $arctan(|sobel_y|/|sobel_x|).$
+![equation](https://latex.codecogs.com/gif.latex?arctan%28%7Csobel_y%7C/%7Csobel_x%7C%29)
  
 
 * Filter the image and convert it to a binary image by apply a threshold
@@ -142,13 +142,13 @@ For each value I define a rectangle where the width is 2x the `margin` value and
 The code of this part is in `./src/line.py` in the `get_line()` function.
 
 With all "good pixels" I can calculate a line that fit all pixels using the `polyfit` function of the numpy library.
-Note that the `polyfit` function returns the three coefficients of a second order polynomial for the following form:  $y = ax^2 + bx + c$ but I already have the Y values because are each pixel in vertical direction `np.linspace(0, height-1, height )` so I chose to invert X and Y pixels parameters of the `polyfit` functions.
+Note that the `polyfit` function returns the three coefficients of a second order polynomial for the following form:  ![equation](https://latex.codecogs.com/gif.latex?y%20%3D%20ax%5E2%20&plus;%20bx%20&plus;%20c) but I already have the Y values because are each pixel in vertical direction `np.linspace(0, height-1, height )` so I chose to invert X and Y pixels parameters of the `polyfit` functions.
 
 To avoid the slinding windows process that use a lot of time to execute in a video where lanes in frames are similar I use the line calculated in the first frame to find "good pixels".
 
 ### Measure curvature 
 
-Given the line coefficients I could calculate the the curvature of the line transformed to tbe real world. To do that I use this formula  ![equation](https://latex.codecogs.com/gif.latex?%5Cfrac%7B%281&plus;%282*A*y%20&plus;%20B%29%5E2%29%5E%5Cfrac%7B3%7D%7B2%7D%7D%7B%7C2*B%7C%7D) where `y` should be multiplied to a coefficient that in my case is $$\frac{44}{100}$$. 
+Given the line coefficients I could calculate the the curvature of the line transformed to tbe real world. To do that I use this formula  ![equation](https://latex.codecogs.com/gif.latex?%5Cfrac%7B%281&plus;%282*A*y%20&plus;%20B%29%5E2%29%5E%5Cfrac%7B3%7D%7B2%7D%7D%7B%7C2*B%7C%7D) where `y` should be multiplied to a coefficient that in my case is ![equation](https://latex.codecogs.com/gif.latex?%5Cfrac%7B44%7D%7B100%7D). 
 
 ### Warp and draw lane boundaries onto the image
 
