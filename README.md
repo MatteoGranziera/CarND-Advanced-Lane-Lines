@@ -148,7 +148,7 @@ To avoid the slinding windows process that use a lot of time to execute in a vid
 
 ### Measure curvature 
 
-Given the line coefficients I could calculate the the curvature of the line transformed to tbe real world. To do that I use this formula  $$\frac{(1+(2*A*y + B)^2)^\frac{3}{2}}{|2*B|}$$ where `y` should be multiplied to a coefficient that in my case is $$\frac{44}{100}$$. 
+Given the line coefficients I could calculate the the curvature of the line transformed to tbe real world. To do that I use this formula  ![equation](https://latex.codecogs.com/gif.latex?%5Cfrac%7B%281&plus;%282*A*y%20&plus;%20B%29%5E2%29%5E%5Cfrac%7B3%7D%7B2%7D%7D%7B%7C2*B%7C%7D) where `y` should be multiplied to a coefficient that in my case is $$\frac{44}{100}$$. 
 
 ### Warp and draw lane boundaries onto the image
 
