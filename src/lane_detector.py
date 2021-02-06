@@ -162,12 +162,12 @@ class lane_detector:
         if self.debug == True:
             print('Left =>')
         
-        left_fity, left_fitx = self.left_line.get_line(lefty, leftx, binary_warped.shape[0])
+        left_fity, left_fitx = self.left_line.get_line(lefty, leftx, binary_warped.shape[0], binary_warped.shape[1])
             
         if self.debug == True:
             print('Right =>')
         
-        right_fity, right_fitx = self.right_line.get_line(righty, rightx, binary_warped.shape[0])
+        right_fity, right_fitx = self.right_line.get_line(righty, rightx, binary_warped.shape[0], binary_warped.shape[1])
         
             
         return (left_fitx, left_fity), (right_fitx, right_fity)
@@ -215,9 +215,15 @@ class lane_detector:
         
         lanes_img = self.draw_lanes(undistorted, binary_warped, left_fitx, right_fitx, ploty)
         
+        
         # Draw radius of curvature on image
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(lanes_img, 'Radius of curvature = ' + str(self.left_line.radius_of_curvature) + " (m)", (10,40), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(lanes_img, 'Radius of curvature: (L) ' + str(self.left_line.radius_of_curvature) + " m - (R) " + str(self.right_line.radius_of_curvature) + "m", (10,40), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
+        
+        m_from_center = round(self.right_line.line_base_pos - self.left_line.line_base_pos, 2)
+        
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.putText(lanes_img, 'Distance from the center = ' + str(m_from_center) + " (m)", (10,80), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
         return lanes_img
         

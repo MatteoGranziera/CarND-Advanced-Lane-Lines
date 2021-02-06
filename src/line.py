@@ -11,7 +11,8 @@ class Line():
         self.reset()
         
         # Based on US specifications
-        self.ym_per_pix = 44/100 # meters per pixel in y dimension
+        self.ym_per_pix = 30/720 # meters per pixel in y dimension
+        self.xm_per_pix = 3.7/1000 # meters per pixel in x dimension
         
         # Accepted coefficients diffs between lines
         self.margin_a = 0.0002
@@ -50,20 +51,28 @@ class Line():
         #y values for detected line pixels
         self.ally = None 
         
-    def measure_curvature(self):
+    def measure(self, width):
         # Define conversions in x and y from pixels space to meters
         ym_per_pix = self.ym_per_pix
+        xm_per_pix = self.xm_per_pix
         
-        fit_cr = self.current_fit
+        plotx = self.allx
         ploty = self.ally
+        
+        # Recalculate coefficients in the real world line
+        fit_cr = np.polyfit(ploty*ym_per_pix, plotx*xm_per_pix, 2)
 
         # I'll choose the maximum y-value, corresponding to the bottom of the image
         y_eval = np.max(ploty)
 
         # Calculate radius of curvature
         curverad = (1 + (2*fit_cr[0]*y_eval*ym_per_pix + fit_cr[1])**2 )**(3/2) / np.absolute(2*fit_cr[0]) 
-
-        self.radius_of_curvature = int(curverad)
+        
+        # assuming that the camera is in the center of view 
+        car_pos = width / 2
+        self.line_base_pos = car_pos*ym_per_pix - (y_eval*ym_per_pix*fit_cr[0]**2 + y_eval*ym_per_pix*fit_cr[1] + fit_cr[0])
+        
+        self.radius_of_curvature = int(curverad) 
 
     def sanity_check(self):
         valid = False
@@ -92,7 +101,7 @@ class Line():
         # Update last check flag
         self.detected = valid
         
-    def get_line(self, pix_y, pix_x, height):
+    def get_line(self, pix_y, pix_x, height, width):
         
         # Get second order polynomial from new data
         fit = np.polyfit(pix_y, pix_x, 2)
@@ -135,7 +144,7 @@ class Line():
 
         # Remove old data
         self.remove_old_iteration()
-        self.measure_curvature()
+        self.measure(width)
 
 #         print(self.radius_of_curvature)
         
