@@ -163,7 +163,7 @@ When I have lane lines I can warp back and draw it onto the image.
 In the end I use the detector class to draw lane lines onto a video, frame by frame. To make more smooth the changes over frames I use the average coeffiecients between previous frames and the new one. 
 Sometimes in a frame it's impossibile to find the lane due to an incorrect gradients filter, in this cases the `line` class returns the average of the previous lines. If I lost lanes for more than 5 frames I ask for a reset and the `detector` class redo a sliding window process.
 
-[Video](https://youtu.be/jgZo6PBEPls)
+[Video](https://youtu.be/XvKequqbKNs)
 
 
 ## Conclusions and improvements
